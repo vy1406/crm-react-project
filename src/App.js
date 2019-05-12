@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Table from './components/TablePage/Table'
 import ActionForm from './components/ActionPage/ActionForm'
-import ChartContainer from './components/ChartPage/ChartContainer'
+
 import './App.css';
+import AnalyticContainer from './components/AnalyticPage/AnalyticContainer';
 
 const axios = require('axios')
 
@@ -77,7 +78,7 @@ class App extends Component {
           text={this.state.searchText}
         />
         <Route exact path="/action" render={() => <ActionForm clients={this.getClientsForTable()} />} />
-        <Route exact path="/analytics" component={ChartContainer} />
+        <Route exact path="/analytics" component={AnalyticContainer} />
 
       </Router>
     );

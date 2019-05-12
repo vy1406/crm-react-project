@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import Badges  from './Badges';
-import Charts  from './Charts';
+import Badges  from './Badges/Badges';
+import Charts  from './Charts/Charts';
+
+
 const axios = require('axios')
-class ChartContainer extends Component {
+
+class AnalyticContainer extends Component {
     constructor() {
         super()
         this.state = {
@@ -31,4 +34,6 @@ class ChartContainer extends Component {
     }
 }
 
-export default ChartContainer;
+
+export default AnalyticContainer;
+
