@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-
+const axios = require('axios') 
 class ActionForm extends Component {
     constructor() {
         super()
         this.state = {
             name: "",
+            surname: "",
             email: "",
             emailType: "",
             sold: false,
@@ -33,6 +34,41 @@ class ActionForm extends Component {
         })
         return result
     }
+    saveUser = async () => {
+        let params = {
+            name: this.state.name,
+            surname: this.state.surname,
+            email: "",
+            emailType: "",
+            sold: false,
+            owner: this.state.owner,
+            country: this.state.country,
+        }
+
+        await axios.post("http://localhost:8080/client", params)
+    }
+    declareSale = async () => {
+        let params = {
+            user_id: "user_id1"
+        }
+        await axios.put("http://localhost:8080/declareSale", params)
+    }
+    changeOwner = async () => {
+        let params ={
+            user_id: "user_id1",
+            newOwner: "newOwner1"
+        }
+        await axios.put("http://localhost:8080/changeOwner", params)
+    }
+    changeEmailType = async () => {
+        let params ={
+            user_id: "user_id1",
+            emailType: "emailType1"
+        }
+        await axios.put("http://localhost:8080/changeEmailType", params)
+    }
+    handleChange = (event) =>  this.setState({ [event.target.name]: event.target.value })
+
     renderUpdateClient = () => {
         return (
             <div className="Update-Client">
@@ -42,16 +78,16 @@ class ActionForm extends Component {
                     <div>
                         <span>Transfer ownership to</span>
                         <select>{this.getOwners()}</select>
-                        <button>Transfer</button>
+                        <button onClick={this.changeOwner}>Transfer</button>
                     </div>
                     <div>
                         <span>Send email</span>
                         <select>{this.getEmailTypes()}</select>
-                        <button>Send Email</button>
+                        <button onClick={this.changeEmailType}>Send Email</button>
                     </div>
                     <div>
                         <span>Declare sale</span>
-                        <button>declare!</button>
+                        <button onClick={this.declareSale}>declare!</button>
                     </div>
 
                 </div>
@@ -78,6 +114,9 @@ class ActionForm extends Component {
                     <span>Owner</span>
                     <input type="text" name="owner" onChange={this.handleChange} placeholder="Input Owner" />
                 </div>
+                <div>
+                    <button onClick={this.saveUser}>Add client</button>
+                </div>
             </div>
         )
     }
@@ -87,7 +126,6 @@ class ActionForm extends Component {
                 {this.renderUpdateClient()}
                 <hr></hr>
                 {this.renderNewClient()}
-
             </div>
         )
     }
