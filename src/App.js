@@ -23,7 +23,8 @@ class App extends Component {
 
   consoleLogToDos = () => {
     let arr = [
-      'uncomment c.save() in clientDao'
+      'uncomment c.save() in clientDao',
+      'make util helper for createCountryAndCounterObject'
     ]
     console.log(arr)
   }
