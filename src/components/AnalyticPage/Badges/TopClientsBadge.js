@@ -9,10 +9,13 @@ class TopClientsBadge extends Component {
                 <div className="badge">
                     <i class="fas fa-chart-line fa-3x"></i>
                 </div>
-                TopClientsBadge
+                <span>
+                    {this.props.clientNumber}
+                </span>
             </div>
         )
     }
 }
 
 export default TopClientsBadge;
+

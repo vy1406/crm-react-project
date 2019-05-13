@@ -8,7 +8,9 @@ class EmailSentBadge extends Component {
                 <div className="badge">
                     <i class="far fa-envelope fa-3x"></i>
                 </div>
-                EmailSentBadge
+                <span>
+                    {this.props.clientNumber}
+                </span>
             </div>
         )
     }

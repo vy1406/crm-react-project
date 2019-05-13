@@ -8,7 +8,9 @@ class HottestCountryBadge extends Component {
                 <div className="badge">
                     <i class="fas fa-globe fa-3x"></i>
                 </div>
-                HottestCountryBadge
+                <span>
+                    {this.props.hottestCountry}
+                </span>
             </div>
         )
     }

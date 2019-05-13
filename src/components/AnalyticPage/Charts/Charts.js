@@ -6,14 +6,26 @@ import SalesSinceMonthChart from './SalesSinceMonthChart'
 
 class Charts extends Component {
 
+    constructor() {
+        super()
+        this.state = {
+            clients: []
+        }
+    }
+
+    componentDidMount = async () => {
+        let data = await axios.get("http://localhost:8080/clients")
+        this.setState({ clients: data.data })
+    }
+    
     render() {
         return (
-             <div>CHARTS:
+            <div>CHARTS:
                 <TopEmployeeChart />
                 <ClientAcquisitionChart />
                 <SalesSinceMonthChart />
                 <CountrySalesChart />
-             </div>
+            </div>
         )
     }
 }
