@@ -4,7 +4,13 @@ class TopClientsBadge extends Component {
 
     render() {
         return (
-             <div>TopClientsBadge</div>
+            
+            <div>
+                <div className="badge">
+                    <i class="fas fa-chart-line fa-3x"></i>
+                </div>
+                TopClientsBadge
+            </div>
         )
     }
 }

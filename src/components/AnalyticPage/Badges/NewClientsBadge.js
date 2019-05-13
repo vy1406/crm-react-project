@@ -4,7 +4,12 @@ class NewClientsBadge extends Component {
 
     render() {
         return (
-             <div>NewClientsBadge</div>
+            <div>
+                <div className="badge">
+                    <i class="fas fa-user-circle fa-3x"></i>
+                </div>
+                NewClientsBadge
+            </div>
         )
     }
 }
