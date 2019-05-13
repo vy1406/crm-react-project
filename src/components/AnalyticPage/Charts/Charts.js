@@ -35,16 +35,15 @@ class Charts extends Component {
         })
 
         listOfOwners = this.sort(data)
-        return data.slice(0,3)
+        return data.slice(0, 3)
     }
     // bubble sort
     sort = listOfOwners => {
-        
+
         let result = listOfOwners
         for (let i = 0; i < listOfOwners.length; i++) {
             let curOwner = listOfOwners[i]
             for (let j = 0; j < i; j++) {
-                console.log(curOwner.pv + " : " + listOfOwners[j])
                 if (curOwner.pv > listOfOwners[j].pv) {
                     result[i] = result[j]
                     result[j] = curOwner
@@ -56,8 +55,60 @@ class Charts extends Component {
     getClientAcquisitionChart = () => {
 
     }
-    getSalesSinceMonthChart = () => {
+    createDayAndNumberObject = () => {
+        let curMonth = new Date().getMonth()
+        if (curMonth < 10)
+            curMonth = "0" + curMonth
+        let objOfDaysSoldByMonth = {}
+        let arrDates = []
+        this.state.clients
+            .filter(c => c.sold === true)
+            .filter(c => c.firstContact.split("T")[0].split("-")[1] === curMonth)
+            .map(c => {
+                arrDates.push({ day: c.firstContact.split("T")[0].split("-")[2] })
+            })
+        for (let i = 0; i < arrDates.length; i++) {
+            if (objOfDaysSoldByMonth[arrDates[i].day] === undefined)
+                objOfDaysSoldByMonth[arrDates[i].day] = 0
+            else
+                objOfDaysSoldByMonth[arrDates[i].day] += 1
+        }
+        return objOfDaysSoldByMonth
+    }
+    arrayOfSalesPerDay = dayAndNumberObj => {
+        let result = []
+        let keys = Object.keys(dayAndNumberObj)
+        keys.forEach(key => {
+            let tempKey = key.split("")[0] === "0" ? key.split("")[1] : key
+            result.push({
+                day: tempKey,
+                pv: dayAndNumberObj[key]
+            })
+        })
 
+        return result
+    }
+    sortByKey = arrToSort => {
+        let daysOfMonthHardCoded = this.getStringOfdays()
+        let result = []
+        daysOfMonthHardCoded.forEach(day => {
+            if (arrToSort[day])
+                result.push({ day, pv: arrToSort[day].pv })
+        })
+        return result
+    }
+    getStringOfdays = () => {
+        let result = []
+        for (let i = 1; i <= 31; i++)
+            result.push(i)
+        return result
+    }
+    getSalesSinceMonthChart = () => {
+        let dayAndNumberObj = this.createDayAndNumberObject()
+        let arraySalesPerDay = this.arrayOfSalesPerDay(dayAndNumberObj)
+        let sorted = this.sortByKey(arraySalesPerDay)
+        console.log(sorted)
+        return sorted
     }
     createCountryAndCounterObject = (countries) => {
         let arrCountryAndCounter = {}

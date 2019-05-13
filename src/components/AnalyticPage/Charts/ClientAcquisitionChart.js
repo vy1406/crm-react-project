@@ -26,10 +26,10 @@ class ClientAcquisitionChart extends Component {
     };
     render() {
         const data = [
-            { name: 'Group A', value: 400 },
-            { name: 'Group B', value: 300 },
-            { name: 'Group C', value: 300 },
-            { name: 'Group D', value: 200 },
+            { name: '1-qrtr', value: 270 },
+            { name: '2-qrtr', value: 156 },
+            { name: '3-qrtr', value: 87 },
+            { name: '4-qrtr', value: 200 },
         ];
         const data01 = [
             { name: 'Group A', value: 400 }, { name: 'Group B', value: 300 },
