@@ -140,7 +140,7 @@ class Charts extends Component {
     }
     render() {
         return (
-            <div>CHARTS:
+            <div>
                 <TopEmployeeChart data={this.getTopEmployeeData()} />
                 <ClientAcquisitionChart data={this.getClientAcquisitionChart()} />
                 <SalesSinceMonthChart data={this.getSalesSinceMonthChart()} />

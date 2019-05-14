@@ -22,33 +22,42 @@ class ClientDao {
             owner: c.owner,
             country: c.country,
         })
-        console.log("UNCOMENT c.save() in order to save the user")
+        console.log(" --- UNCOMENT c.save() in order to save the user --- ")
         // C.save()
         console.log(`Client with ${C._id} was saved`)
     }
 
     async changeUsersEmailType(params) {
-        console.log("in changeUsersEmailType, params:")
-        console.log(params)
+        Client.findById(params.user_id, function(err, client){
+            client.emailType = params.emailType
+            client.save()
+        })
     }
 
-    async declareSaleForUser(user_id) {
-        console.log("in declareSaleForUser ( just make it true )")
-        console.log(user_id)
+    async declareSaleForUser(params) {
+        Client.findById(params.user_id, function(err, client){
+            client.sold = true
+            client.save()
+        })
     }
 
     async changeUserOwner(params) {
-        console.log(" in changeUserOwner, params: ")
-        console.log(params)
+        Client.findById(params.user_id, function(err, client){
+            client.owner = params.newOwner
+            client.save()
+        })
     }
     
+    // ------------------------------------------
+    // one time functions
+    // ------------------------------------------
     async populateWithDummyData() {
         const dataFromFile = require('../utils/data')
 
         for (let c of dataFromFile) {
             let clientToSave = new Client({
-                name: c.name.split(" ")[0],
-                surname: c.name.split(" ")[1],
+                name: c.name.split(" ")[0].replace(/\s/g, ''),
+                surname: c.name.split(" ")[1].replace(/\s/g, ''),
                 emailType: c.emailType,
                 firstContact: c.firstContact,
                 sold: c.sold,

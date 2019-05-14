@@ -13,21 +13,26 @@ class App extends Component {
     super()
     this.state = {
       searchText: "",
+      showPopup: false,
       data: []
     }
   }
+
   componentDidMount = async () => {
     let data = await axios.get("http://localhost:8080/clients")
-    this.setState({data : data.data})
+    this.setState({ data: data.data })
   }
 
   consoleLogToDos = () => {
     let arr = [
       'uncomment c.save() in clientDao',
-      'make util helper for createCountryAndCounterObject'
+      'make util helper for createCountryAndCounterObject',
+      'in action-form, before updating, check that htere is no empty string',
+      'show current owner of found client in action, before changing so ill know what is the current'
     ]
     console.log(arr)
   }
+
   getClientsForTable = () => {
     let arr = []
     arr = this.state.data.map(c => {
@@ -51,7 +56,10 @@ class App extends Component {
     })
 
   }
-
+  showPopup = (argID) => {
+    
+    
+  }
   getFilteredClients = () => {
     let result = []
     result = this.state.data.filter(c => c.name.toLocaleLowerCase().includes(this.state.searchText.toLocaleLowerCase()))
@@ -75,7 +83,8 @@ class App extends Component {
           this.state.data
           :
           this.getFilteredClients()}
-          handleChange={this.handleChange} />}
+          handleChange={this.handleChange} 
+          showPopup={this.showPopup}/>}
           text={this.state.searchText}
         />
         <Route exact path="/action" render={() => <ActionForm clients={this.getClientsForTable()} />} />

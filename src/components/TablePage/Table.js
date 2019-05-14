@@ -20,7 +20,7 @@ class Table extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.props.clients.map(c => <ClientRow key={c._id} client={c} />)}
+                        {this.props.clients.map(c => <ClientRow key={c._id} client={c} showPopup={this.props.showPopup} />)}
                     </tbody>
                 </table>
             </div>

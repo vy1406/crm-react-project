@@ -1,21 +1,7 @@
 import React, { Component } from 'react';
 import {
-    BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+    BarChart, Bar,  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
-
-
-// const data = [
-//     {
-//         name: 'Page A', pv: 2400,
-//     },
-//     {
-//         name: 'Page B', pv: 1398,
-//     },
-//     {
-//         name: 'Page C', pv: 9800,
-//     }
-
-// ];
 
 class TopEmployeeChart extends Component {
 
@@ -25,7 +11,6 @@ class TopEmployeeChart extends Component {
 
     render() {
         return (
-            <div>
                 <BarChart
                     width={500}
                     height={300}
@@ -41,7 +26,6 @@ class TopEmployeeChart extends Component {
                     <Legend />
                     <Bar dataKey="pv" fill="#8884d8" />
                 </BarChart>
-            </div>
         )
     }
 }

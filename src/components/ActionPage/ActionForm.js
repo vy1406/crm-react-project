@@ -4,6 +4,7 @@ class ActionForm extends Component {
     constructor() {
         super()
         this.state = {
+            id: "",
             name: "",
             surname: "",
             email: "",
@@ -11,6 +12,7 @@ class ActionForm extends Component {
             sold: false,
             owner: "",
             country: "",
+            inputName: "",
             clients: []
         }
     }
@@ -57,48 +59,48 @@ class ActionForm extends Component {
         let data = await axios.get("http://localhost:8080/clients")
         this.setState({ clients: data.data })
     }
+
     declareSale = async () => {
-        let params = {
-            user_id: "user_id1"
-        }
-        await axios.put("http://localhost:8080/declareSale", params)
+        let user_id = this.findIdByName(this.state.inputName)
+        await axios.put("http://localhost:8080/declareSale", {user_id})
     }
 
     changeOwner = async () => {
-        let params = {
-            user_id: "user_id1",
-            newOwner: "newOwner1"
-        }
-        await axios.put("http://localhost:8080/changeOwner", params)
+        let newOwner = this.state.owner
+        let user_id = this.findIdByName(this.state.inputName)
+
+        await axios.put("http://localhost:8080/changeOwner", {user_id,newOwner})
     }
+
     changeEmailType = async () => {
-        let params = {
-            user_id: "user_id1",
-            emailType: "emailType1"
-        }
-        await axios.put("http://localhost:8080/changeEmailType", params)
+        const emailType = this.state.emailType
+        const user_id = this.findIdByName(this.state.inputName)
+
+        await axios.put("http://localhost:8080/changeEmailType",  {user_id, emailType})
     }
+
     handleChange = (event) => this.setState({ [event.target.name]: event.target.value })
+
     getListOfSuggestions = () => {
         let result = this.state.clients.filter(c => c.name.toLocaleLowerCase().includes(this.state.name.toLocaleLowerCase()) ||
             c.surname.toLocaleLowerCase().includes(this.state.name.toLocaleLowerCase()))
         let arrOptions = []
         for (let i = 0; i < result.length; i++) {
             let fullName = result[i].name + " " + result[i].surname
-            let curName = <option value={fullName}></option>
+            let curName = <option key={result[i]} value={fullName}></option>
             arrOptions.push(curName)
         }
         if (arrOptions.length > 10)
             arrOptions = arrOptions.slice(0, 10)
         return (
-            <datalist id="owners">
+            <datalist id="clientList">
                 {arrOptions}
             </datalist>
         )
     }
     getListOfSuggestedCountries = () => {
         let result = this.state.clients.filter(c => c.country.toLocaleLowerCase().includes(this.state.country.toLocaleLowerCase()))
-        result = result.map(c => { return  c.country  })
+        result = result.map(c => { return c.country })
         result = [...new Set(result)]
         let arrOptions = []
 
@@ -116,22 +118,34 @@ class ActionForm extends Component {
             </datalist>
         )
     }
+    findIdByName = (fullName) => {
+        let name = fullName.split(" ")[0]
+        let surname = ""
+        if (fullName.split(" ").length > 1) 
+            surname = fullName.split(" ")[1]
+
+        let client = this.state.clients.filter(c => c.name === name && c.surname === surname) 
+        let id =  client[0] ? client[0]._id : ""
+        return id
+    }
+    handleInput = event => this.setState( {inputName : event.target.value})
+    
     renderUpdateClient = () => {
         return (
             <div className="Update-Client">
                 <h4>Update Client</h4>
                 <span>Client</span>
-                <input list="owners" name="name" onChange={this.handleChange} placeholder="Client Name" />
+                <input list="clientList" name="name" onChange={this.handleInput} placeholder="Client Name" />
                 {this.getListOfSuggestions()}
                 <div className="modify-client">
                     <div>
                         <span>Transfer ownership to</span>
-                        <select>{this.getOwners()}</select>
+                        <select name="owner" onChange={this.handleChange}>{this.getOwners()}</select>
                         <button onClick={this.changeOwner}>Transfer</button>
                     </div>
                     <div>
                         <span>Send email</span>
-                        <select>{this.getEmailTypes()}</select>
+                        <select name="emailType" onChange={this.handleChange}>{this.getEmailTypes()}</select>
                         <button onClick={this.changeEmailType}>Send Email</button>
                     </div>
                     <div>

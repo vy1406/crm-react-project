@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 
 class ClientRow extends Component {
-
+    showPopup = () => {
+        this.props.showPopup(this.props.client._id)
+    }
     render() {
         return (
-            <tr>  
+            <tr onClick={this.showPopup}>  
                 <td>{this.props.client.name}</td>
                 <td>{this.props.client.surname}</td>
                 <td>{this.props.client.emailType}</td>

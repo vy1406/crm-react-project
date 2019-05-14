@@ -36,4 +36,3 @@ class AnalyticContainer extends Component {
 
 
 export default AnalyticContainer;
-
