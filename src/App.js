@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Table from './components/TablePage/Table'
 import ActionForm from './components/ActionPage/ActionForm'
+import Popup from './components/Popup'
 
 import './App.css';
 import AnalyticContainer from './components/AnalyticPage/AnalyticContainer';
@@ -14,6 +15,7 @@ class App extends Component {
     this.state = {
       searchText: "",
       showPopup: false,
+      popupUserID: "",
       data: []
     }
   }
@@ -56,9 +58,11 @@ class App extends Component {
     })
 
   }
-  showPopup = (argID) => {
-    
-    
+  togglePopup = (popupUserID) => {
+    this.setState({
+      showPopup: !this.state.showPopup,
+      popupUserID
+    })
   }
   getFilteredClients = () => {
     let result = []
@@ -79,12 +83,21 @@ class App extends Component {
           </div>
         </div>
 
+        {this.state.showPopup ?
+         <Popup
+            text='Close Me'
+            userID = {this.state.popupUserID}
+            closePopup={this.togglePopup}
+          />
+          : null
+          }
+
         <Route exact path="/" render={() => <Table clients={this.state.searchText === "" ?
           this.state.data
           :
           this.getFilteredClients()}
           handleChange={this.handleChange} 
-          showPopup={this.showPopup}/>}
+          showPopup={this.togglePopup}/>}
           text={this.state.searchText}
         />
         <Route exact path="/action" render={() => <ActionForm clients={this.getClientsForTable()} />} />
